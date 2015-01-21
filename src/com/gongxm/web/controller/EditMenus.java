@@ -9,8 +9,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.gongxm.bean.Menu;
+import com.gongxm.bean.User;
 import com.gongxm.service.Service;
 import com.gongxm.service.ServiceImpl;
+import com.gongxm.utils.MyCosntants;
 import com.gongxm.utils.TextUtils;
 
 public class EditMenus extends HttpServlet {
@@ -21,6 +23,19 @@ public class EditMenus extends HttpServlet {
 		String id = request.getParameter("id");
 		String menu = request.getParameter("menu");
 		String name = request.getParameter("name");
+		
+		User user=(User) request.getSession().getAttribute("user");
+		if(user==null){
+			response.getWriter().write("对不起，您还没有登陆，请先登陆再操作！1秒后转到登陆页面！");
+			response.setHeader("refresh", "1;url="+request.getContextPath()+"/login.jsp");
+			return;
+		}
+		if(!"root".equals(user.getPermission())){
+			response.getWriter().write("对不起，您的权限不足，无法进行该操作！1秒后转到主页！");
+			response.setHeader("refresh", "1;url="+MyCosntants.url);
+			return;
+		}
+		
 		if (!TextUtils.isEmpty(id)) {
 			s.deleteMenu(id);
 		}

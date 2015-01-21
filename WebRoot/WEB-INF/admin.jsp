@@ -1,5 +1,5 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
-
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
@@ -53,17 +53,27 @@
 		if (confirm("确认要清空数据库？"))
 			location.href = "${pageContext.request.contextPath}/servlet/ClearDB";
 	}
+
 	//开始采集网站图片
 	function getImages() {
-		if (confirm("确认要开始采集网站图片？")){
 		//获取当前选中的类型
-			var selectNode=document.getElementById("category");
-			var index=selectNode.selectedIndex;
-			var category=selectNode.options[index].value;
+		var selectNode = document.getElementById("category");
+		var index = selectNode.selectedIndex;
+		if (index == 0) {
+			alert("请先选择分类！");
+			return;
+		}
+		if (confirm("确认要开始采集网站图片？")) {
+			var category = selectNode.options[index].value;
 			//获取开始位置和结束位置
-			var startIndex=document.getElementById("start").value;
-			var endIndex=document.getElementById("end").value;
-			location.href = "${pageContext.request.contextPath}/servlet/GetImages?category="+category+"&startIndex="+startIndex+"&endIndex="+endIndex;
+			var startIndex = document.getElementById("start").value;
+			var endIndex = document.getElementById("end").value;
+			location.href = "${pageContext.request.contextPath}/servlet/GetImages?category="
+					+ category
+					+ "&startIndex="
+					+ startIndex
+					+ "&endIndex="
+					+ endIndex;
 		}
 	}
 </script>
@@ -116,23 +126,22 @@ table {
 			</tr>
 			<tr>
 				<td>类型：<select id="category">
-						<option value="glamour">glamour</option>
-						<option value="beauty">beauty</option>
-						<option value="photo">photo</option>
-						<option value="korea">korea</option>
-						<option value="beautyleg">beautyleg</option>
-						<option value="cosplay">cosplay</option>
-						<option value="jiepaimeinv">jiepaimeinv</option>
+						<option value="">--选择分类--</option>
+						<c:forEach items="${sessionScope.menus}" var="menus">
+							<option value="${menus.menu}">${menus.name}</option>
+						</c:forEach>
 				</select></td>
-				<td colspan="2">开始位置：<input type="text" id="start" value="1" style="width:20px">结束位置：<input type="text" id="end" value="20" style="width:20px"></td>
+				<td colspan="2">开始位置：<input type="text" id="start" value="1"
+					style="width:20px">结束位置：<input type="text" id="end"
+					value="20" style="width:20px"></td>
 			</tr>
 			<tr>
 				<td>开始采集</td>
 				<td><input type="button" value="采集" onclick="getImages()" /></td>
 			</tr>
 			<tr>
-			<td>菜单管理</td>
-			<td><input type="button" value="进入" onclick="menu()" /></td>
+				<td>菜单管理</td>
+				<td><input type="button" value="进入" onclick="menu()" /></td>
 			</tr>
 		</table>
 	</form>

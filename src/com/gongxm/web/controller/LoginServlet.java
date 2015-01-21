@@ -27,8 +27,8 @@ public class LoginServlet extends HttpServlet {
 		password = MD5Util.MD5(password);
 		User user = s.findUser(username, password);
 		if (user == null) {
-			writer.write("用户名或密码错误！2秒后回到登陆页面");
-			response.setHeader("refresh", "2;url=" + request.getContextPath()
+			writer.write("用户名或密码错误！1秒后回到登陆页面");
+			response.setHeader("refresh", "1;url=" + request.getContextPath()
 					+ "/login.jsp");
 			return;
 		}
@@ -44,8 +44,8 @@ public class LoginServlet extends HttpServlet {
 			writer.write("登陆成功！1秒后转到后台！");
 			response.setHeader("refresh", "1;url=" + MyCosntants.url + "/admin");
 		} else {
-			writer.write("登陆成功！2秒后转到主页！");
-			response.setHeader("refresh", "2;url=" + MyCosntants.url
+			writer.write("登陆成功！1秒后转到主页！");
+			response.setHeader("refresh", "1;url=" + MyCosntants.url
 					+ "/index.jsp");
 		}
 	}

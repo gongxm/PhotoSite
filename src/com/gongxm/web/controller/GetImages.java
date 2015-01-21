@@ -34,8 +34,6 @@ public class GetImages extends HttpServlet {
 	private List<String> urls = new ArrayList<String>();
 	// 所有的图片组链接
 	private List<String> imgGroupPages = new ArrayList<String>();
-	// 所有的图片组缩略图链接
-	private List<String> imgGroupPageIcons = new ArrayList<String>();
 	// 标记是否获取到所有的图片页面链接，当count=urls的大小时就说明获取到所有图片页面链接了
 
 	private ResourceBundle bundle = ResourceBundle.getBundle("config");
@@ -49,8 +47,14 @@ public class GetImages extends HttpServlet {
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		PrintWriter out = response.getWriter();
 		// 获取传输过来的参数
 		category = request.getParameter("category");
+		if(TextUtils.isEmpty(category)){
+			out.println("请选择正确的分类！");
+			response.setHeader("refresh", "1;url=" + MyCosntants.url + "/admin");
+			return;
+		}
 		String startIndex = request.getParameter("startIndex");
 		String endIndex = request.getParameter("endIndex").split("\\?")[0];
 		if (TextUtils.isEmpty(startIndex))
@@ -79,8 +83,6 @@ public class GetImages extends HttpServlet {
 				getAllImages();
 			};
 		}.start();
-
-		PrintWriter out = response.getWriter();
 		out.println("<font color='red'>采集开始了，即将回到后台</font>");
 		response.setHeader("refresh", "2;url=" + MyCosntants.url + "/admin");
 	}
@@ -138,6 +140,19 @@ public class GetImages extends HttpServlet {
 					System.out.println("该记录已存在，跳过！");
 					continue;
 				}
+				//获取图片缩略图
+				String icon_content=content.split("<div class=\"art_picture\">")[1].split("<div class=\"mt5 art_txt\">")[0];
+				String icon_reg = bundle.getString("imgIconReg");
+				Pattern icon_p = Pattern.compile(icon_reg);
+				Matcher icon_m = icon_p.matcher(icon_content);
+				String iconPath=null;
+				if(icon_m.find()){
+					iconPath=icon_m.group();
+					System.out.println("缩略图="+iconPath);
+				}else{
+					System.out.println("找不到缩略图，跳过！");
+					continue;
+				}
 				// 获取图片页数
 				String num = num_content.split("共")[1].split("页")[0];
 				int imagePages = Integer.parseInt(num);
@@ -166,7 +181,6 @@ public class GetImages extends HttpServlet {
 						}
 					}
 				} catch (Exception e) {
-					e.printStackTrace();
 					System.out.println("图片页面读取异常,下载失败！原因：" + e.getMessage());
 				}
 				if(urls.length()==0)//如果没有查找到内容，跳过
@@ -177,7 +191,7 @@ public class GetImages extends HttpServlet {
 				urls.setLength(urls.length() - 1);// 去掉最后一个#号
 				Image image = new Image();
 				image.setFilename(title);
-				image.setFilepath(imgGroupPageIcons.get(x));
+				image.setFilepath(iconPath);
 				image.setImagesPath(urls.toString());
 				image.setCategory(category);
 				s.addImg(image);
@@ -198,6 +212,7 @@ public class GetImages extends HttpServlet {
 	 */
 	private void getAllFirstPages() {
 		for (final String url : urls) {
+			System.out.println(url);
 			try {
 				String content = getHttpContent(url);
 				// 获取包含图片页面链接的那部分内容
@@ -212,14 +227,6 @@ public class GetImages extends HttpServlet {
 				while (m.find()) {
 					String page_url = m.group();
 					imgGroupPages.add(page_url);
-				}
-				// 图片组缩略图链接匹配规则
-				String reg2 = bundle.getString("imgGroupIconReg");
-				Pattern p2 = Pattern.compile(reg2);
-				Matcher m2 = p2.matcher(content);
-				while (m2.find()) {
-					String icon_url = m2.group();
-					imgGroupPageIcons.add(icon_url);
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
