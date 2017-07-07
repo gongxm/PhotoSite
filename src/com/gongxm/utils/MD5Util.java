@@ -3,9 +3,9 @@ package com.gongxm.utils;
 import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import com.gongxm.utils.encoder.BASE64Decoder;
+import com.gongxm.utils.encoder.BASE64Encoder;
 
-import sun.misc.BASE64Decoder;
-import sun.misc.BASE64Encoder;
 
 public class MD5Util {
 	public static String base64Encoding(String str){

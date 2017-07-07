@@ -13,18 +13,24 @@
 	color: #0000ff;
 	font-size: 20px;
 }
+
+a{
+	text-decoration: none;
+}
+
+td{
+	padding: 5px;
+}
+
 </style>
 <h1>好图推荐：</h1>
-<table>
+<table align="center">
 
 	<tr>
 		<c:forEach items="${recomm.records}" var="item">
-			<td><c:url value="/servlet/Download" var="url">
-					<c:param name="id" value="${item.id}"></c:param>
-				</c:url> <a
-				href="${pageContext.request.contextPath}/servlet/Detail?id=${item.id}">
-					<img alt="" src="${url}" width="150px" height="200px" /> <br />
-					${item.filename}
+			<td align="center"><a href="${pageContext.request.contextPath}/servlet/Detail?id=${item.id}">
+					<img alt="" src="${pageContext.request.contextPath}/getImage?id=${item.id}" width="150px" height="200px" /> <br/>
+					${item.id}
 			</a></td>
 		</c:forEach>
 	</tr>
@@ -34,7 +40,7 @@
 
 <br />
 <br />
-<div class="div1">
+<div align="center">
 	<a href="${pageContext.request.contextPath}/">回到主页</a>
 </div>
 <hr />

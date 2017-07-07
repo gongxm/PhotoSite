@@ -15,6 +15,10 @@ import com.gongxm.service.ServiceImpl;
 import com.gongxm.utils.Page;
 
 public class ShowList extends HttpServlet {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Service s=new ServiceImpl();
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -22,17 +26,18 @@ public class ShowList extends HttpServlet {
 		if(index==null)
 			index="1";
 		int totalRecods=s.getTotalRecords();
-		Page page=new Page(Integer.parseInt(index),totalRecods,request.getContextPath()+"/servlet/ShowList");
+		Page page=new Page(Integer.parseInt(index),totalRecods,request.getContextPath()+"/servlet/ShowList?index=");
 		List<Image> list=s.findImageList(page.getStartNum(), page.getPageSize());
 		page.setRecords(list);
 		request.getSession().setAttribute("page", page);
 		
 		Random r=new Random();
-		Page repage=new Page(1,totalRecods,request.getContextPath()+"/servlet/ShowList");
+		Page repage=new Page(1,totalRecods,request.getContextPath()+"/servlet/ShowList?index=");
 		int num=totalRecods-5;
 		if(num<=0)
 			num=1;
 		List<Image> recomm=s.findImageList(r.nextInt(num)+1, 5);
+		
 		repage.setRecords(recomm);
 		request.getSession().setAttribute("recomm", repage);
 		request.getRequestDispatcher("/list.jsp").forward(request, response);

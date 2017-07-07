@@ -11,11 +11,18 @@
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	-->
 <style type="text/css">
-#regist {
-	border: 1px solid #f3c3f3;
-	margin-top:100px;
-	margin-left: 30%;
-	width:300px;
+.table2 {
+	border: 1px solid #f3f3f3;
+	width: 100%;
+	height: 80%;
+	border: 0;
+	cellspacing: 0;
+	cellpadding: 0;
+}
+
+.table {
+	border: 1px solid #f3c3c3;
+	width: 300px;
 }
 
 td {
@@ -25,34 +32,44 @@ td {
 
 </head>
 <body>
-	<div id="regist">
-		<h1>用户注册</h1>
-		<form
-			action="${pageContext.request.contextPath}/servlet/RegistServlet"
-			method="post">
-			<table>
-				<tr>
-					<td>用户名：</td>
-					<td><input type="text" name="username"
-						value="${sessionScope.bean.username}" /></td>
-				</tr>
-				<tr>
-					<td>密码：</td>
-					<td><input type="password" name="password"
-						value="${sessionScope.bean.password}" /></td>
-				</tr>
-				<tr>
-					<td>确认密码：</td>
-					<td><input type="password" name="repassword" /></td>
-				</tr>
-				<tr>
-					<td colspan="2"><input type="reset" value="清空" /> <input
-						type="submit" value="注册" /></td>
-				</tr>
-			</table>
-		</form>
-		<a href="${pageContext.request.contextPath}">回到主页</a> <a
-			href="${pageContext.request.contextPath}/login.jsp">已有账号，去登陆</a>
-	</div>
+
+	<h1 align="center">用户注册</h1>
+
+	<table class="table2">
+		<tr>
+			<td align="center">
+				<form
+					action="${pageContext.request.contextPath}/servlet/RegistServlet"
+					method="post">
+					<table class="table">
+						<tr>
+							<td>用户名:</td>
+							<td><input type="text" name="username"
+								value="${sessionScope.bean.username}" /></td>
+						</tr>
+						<tr>
+							<td>密码:</td>
+							<td><input type="password" name="password"
+								value="${sessionScope.bean.password}" /></td>
+						</tr>
+						<tr>
+							<td>确认密码:</td>
+							<td><input type="password" name="repassword" /></td>
+						</tr>
+						<tr>
+							<td align="center"><input type="reset" value="清空" /></td>
+							<td align="center"><input type="submit" value="注册" /></td>
+						</tr>
+						<tr>
+							<td align="center"><a
+								href="${pageContext.request.contextPath}">回到主页</a></td>
+							<td align="center"><a
+								href="${pageContext.request.contextPath}/login.jsp">已有账号，去登陆</a></td>
+						</tr>
+					</table>
+				</form>
+			</td>
+		</tr>
+	</table>
 </body>
 </html>

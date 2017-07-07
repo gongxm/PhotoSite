@@ -2,7 +2,6 @@ package com.gongxm.web.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.net.URLEncoder;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
@@ -27,7 +26,7 @@ public class LoginServlet extends HttpServlet {
 		password = MD5Util.MD5(password);
 		User user = s.findUser(username, password);
 		if (user == null) {
-			writer.write("用户名或密码错误！1秒后回到登陆页面");
+			writer.write("<h1 align='center'>用户名或密码错误！1秒后回到登陆页面</h1>");
 			response.setHeader("refresh", "1;url=" + request.getContextPath()
 					+ "/login.jsp");
 			return;
@@ -41,10 +40,10 @@ public class LoginServlet extends HttpServlet {
 		}
 		request.getSession().setAttribute("user", user);
 		if ("root".equals(user.getPermission())) {
-			writer.write("登陆成功！1秒后转到后台！");
+			writer.write("<h1 align='center'>登陆成功！1秒后转到后台！</h1>");
 			response.setHeader("refresh", "1;url=" + MyCosntants.url + "/admin");
 		} else {
-			writer.write("登陆成功！1秒后转到主页！");
+			writer.write("<h1 align='center'>登陆成功！1秒后转到主页！</h1>");
 			response.setHeader("refresh", "1;url=" + MyCosntants.url
 					+ "/index.jsp");
 		}

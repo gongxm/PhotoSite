@@ -10,40 +10,39 @@
 <style type="text/css">
 table {
 	border: 1px solid #f3c3f3;
-	margin: 100px;
+	width: 80%;
+	margin-left: 10%;
+}
+a{
+	text-decoration: none;
 }
 </style>
 
-<script type="text/javascript">
-	function jump() {
-		var num = document.getElementById("num").value;
-		window.location.href = "${pageContext.request.contextPath}/servlet/ShowList?index="
-				+ num;
-	}
-</script>
+
 </head>
 <body>
 	<jsp:include page="common/head.jsp"></jsp:include>
-	<h1>图片列表页</h1>
+	<h1 align="center">图片列表页</h1>
 	<table>
 		<tr>
 			<c:forEach items="${page.records}" var="image" varStatus="vs">
-				<td><c:url value="/servlet/Download" var="url">
-						<c:param name="id" value="${image.id}"></c:param>
-					</c:url> <a	href="${pageContext.request.contextPath}/servlet/Detail?id=${image.id}">
-						<img alt="" src="${url}" width="150px" height="200px" /> <br />
-						${image.filename}
+				<td align="center"><a
+					href="${pageContext.request.contextPath}/servlet/Detail?id=${image.id}">
+						<img alt=""
+						src="${pageContext.request.contextPath}/getImage?id=${image.id}"
+						width="150px" height="200px" /><br /> ${image.id}
 				</a></td>
 				<c:if test="${vs.count%4==0}">
-					</tr><tr>
-				</c:if>
+		</tr>
+		<tr>
+			</c:if>
 			</c:forEach>
 		</tr>
 		<tr>
 			<td colspan="4"><jsp:include page="common/page.jsp"></jsp:include></td>
 		</tr>
 	</table>
-	<jsp:include page="common/foot.jsp"></jsp:include>
+	<jsp:include page="common/foot.jsp" />
 	<br />
 	<br />
 	<br />

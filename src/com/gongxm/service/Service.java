@@ -2,6 +2,7 @@ package com.gongxm.service;
 
 import java.util.List;
 
+import com.gongxm.bean.CollectReg;
 import com.gongxm.bean.Image;
 import com.gongxm.bean.Menu;
 import com.gongxm.bean.User;
@@ -51,4 +52,10 @@ public interface Service {
 
 	// 根据menu查找菜单
 	public abstract Menu findMenu(String menu);
+
+	// 更新菜单
+	public abstract void updateMenu(Menu m);
+
+	//获取所有采集规则 
+	public abstract List<CollectReg> findAllReg();
 }

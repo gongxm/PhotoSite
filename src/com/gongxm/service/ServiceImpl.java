@@ -2,6 +2,7 @@ package com.gongxm.service;
 
 import java.util.List;
 
+import com.gongxm.bean.CollectReg;
 import com.gongxm.bean.Image;
 import com.gongxm.bean.Menu;
 import com.gongxm.bean.User;
@@ -13,9 +14,10 @@ import com.gongxm.dao.impl.MenuDaoImpl;
 import com.gongxm.dao.impl.UserDaoImpl;
 
 public class ServiceImpl implements Service {
-	private UserDao udao=new UserDaoImpl();
-	private ImageDao idao=new ImageDaoImpl();
-	private MenuDao mdao=new MenuDaoImpl();
+	private UserDao udao = new UserDaoImpl();
+	private ImageDao idao = new ImageDaoImpl();
+	private MenuDao mdao = new MenuDaoImpl();
+
 	@Override
 	public void addUser(User user) {
 		udao.add(user);
@@ -23,8 +25,8 @@ public class ServiceImpl implements Service {
 
 	@Override
 	public void deleteUser(String username) {
-		User user=udao.findUser(username);
-		if(user!=null){
+		User user = udao.findUser(username);
+		if (user != null) {
 			udao.delete(user.getId());
 		}
 	}
@@ -46,8 +48,8 @@ public class ServiceImpl implements Service {
 
 	@Override
 	public void deleteImg(String filename) {
-		Image image=idao.findImage(filename);
-		if(image!=null)
+		Image image = idao.findImage(filename);
+		if (image != null)
 			idao.delete(image.getId());
 	}
 
@@ -68,7 +70,7 @@ public class ServiceImpl implements Service {
 
 	@Override
 	public User findUser(String username, String password) {
-		return udao.findUser(username,password);
+		return udao.findUser(username, password);
 	}
 
 	@Override
@@ -94,7 +96,7 @@ public class ServiceImpl implements Service {
 	@Override
 	public List<Image> findCategoryImageList(String category, int startIndex,
 			int pageSize) {
-		return idao.findCategoryImageList(category,startIndex, pageSize);
+		return idao.findCategoryImageList(category, startIndex, pageSize);
 	}
 
 	@Override
@@ -102,8 +104,7 @@ public class ServiceImpl implements Service {
 		return idao.findImageByName(title);
 	}
 
-	
-	//增加菜单
+	// 增加菜单
 	@Override
 	public void addMenu(Menu menu) {
 		mdao.add(menu);
@@ -124,5 +125,16 @@ public class ServiceImpl implements Service {
 		return mdao.findMenu(menu);
 	}
 
+	// 更新菜单
+	@Override
+	public void updateMenu(Menu m) {
+		mdao.update(m);
+	}
+
+	@Override
+	public List<CollectReg> findAllReg() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

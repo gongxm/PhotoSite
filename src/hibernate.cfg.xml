@@ -6,11 +6,11 @@
 	<session-factory>
 		<!-- Database connection settings -->
 		<property name="connection.driver_class">com.mysql.jdbc.Driver</property>
-		<property name="connection.url">jdbc:mysql://10.0.16.16:4066/3410954899p_mysql_8rjlrp78</property>
-		<property name="connection.username">ysgi1r3c</property>
-		<property name="connection.password">1ImS8MT3p5iP</property>
-		<!-- <property name="connection.url">jdbc:mysql://localhost:5520/mypic</property> 
-			<property name="connection.username">root</property> <property name="connection.password">root</property> -->
+		<!-- <property name="connection.url">jdbc:mysql://10.0.16.16:4066/3410954899p_mysql_8rjlrp78</property> 
+			<property name="connection.username">ysgi1r3c</property> <property name="connection.password">1ImS8MT3p5iP</property> -->
+		<property name="connection.url">jdbc:mysql://localhost:3306/mypic</property>
+		<property name="connection.username">root</property>
+		<property name="connection.password">root</property>
 		<!-- JDBC connection pool (use the built-in) -->
 		<property name="connection.pool_size">5</property>
 		<!-- SQL dialect -->

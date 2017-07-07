@@ -44,6 +44,16 @@ public class IndexFilter implements Filter {
 		Random r=new Random();
 		int pageNum=r.nextInt(num);
 		List<Image> list=s.findImageList(pageNum, page.getPageSize());
+		String contextPath = request.getContextPath();
+		
+		for (int i=0;i<list.size();i++) {
+			Image image = list.get(i);
+			String filepath = image.getFilepath();
+			filepath = contextPath+"/getImage?value="+filepath;
+			image.setFilepath(filepath);
+			list.set(i, image);
+		}
+		
 		page.setRecords(list);
 		request.getSession().setAttribute("page", page);
 		request.getRequestDispatcher("/index.jsp").forward(request, response);

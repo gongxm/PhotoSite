@@ -23,6 +23,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 
 import com.gongxm.bean.Image;
+import com.gongxm.bean.Menu;
 import com.gongxm.service.Service;
 import com.gongxm.service.ServiceImpl;
 import com.gongxm.utils.MyCosntants;
@@ -44,6 +45,8 @@ public class GetImages extends HttpServlet {
 
 	// 业务逻辑
 	private Service s = new ServiceImpl();
+	private int start;
+	private int end;
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -59,15 +62,23 @@ public class GetImages extends HttpServlet {
 		String endIndex = request.getParameter("endIndex").split("\\?")[0];
 		if (TextUtils.isEmpty(startIndex))
 			startIndex = "1";
-		final int start = Integer.parseInt(startIndex);
 		if (TextUtils.isEmpty(endIndex)) {
 			endIndex = "1";
 		}
-		final int end = Integer.parseInt(endIndex);
+		 start = Integer.parseInt(startIndex);
+		 end = Integer.parseInt(endIndex);
+		
+		if(start==0&&end==0){
+			Menu menu = s.findMenu(category);
+			start=menu.getStartIndex();
+			end=menu.getEndIndex();
+		}
+		
+		System.out.println(category+","+start+","+end);
+		
 		// 获取采集网站的编码集
 		charset = bundle.getString("charset");
 		// 当前类别
-		// category = bundle.getString("category");
 		response.setContentType("text/html");
 		new Thread() {
 			public void run() {
@@ -81,6 +92,7 @@ public class GetImages extends HttpServlet {
 						+ "条记录");
 				System.out.println("开始获取所有图片页面链接……");
 				getAllImages();
+				category=null;
 			};
 		}.start();
 		out.println("<font color='red'>采集开始了，即将回到后台</font>");
@@ -178,6 +190,16 @@ public class GetImages extends HttpServlet {
 							urls.append(imgurl + "#");
 							System.out.println("title=" + title + "  imgurl="
 									+ imgurl);
+						}else{
+							String reg2 = "uploads/.{5,100}\\.jpg";
+							Pattern p2 = Pattern.compile(reg2);
+							Matcher m2 = p2.matcher(content);
+							if(m2.find()){
+								String imgurl =bundle.getString("base_url")+ m2.group();
+								urls.append(imgurl + "#");
+								System.out.println("title2=" + title + "  imgurl="
+										+ imgurl);
+							}
 						}
 					}
 				} catch (Exception e) {
@@ -219,7 +241,6 @@ public class GetImages extends HttpServlet {
 				content = content.split(bundle.getString("startTag"))[1]
 						.split(bundle.getString("endTag"))[0];
 				// 图片页面超链接匹配规则
-				// String base_url = bundle.getString("base_url");
 				String reg = bundle.getString("imgPageReg");
 				// 图片组链接匹配规则
 				Pattern p = Pattern.compile(reg);

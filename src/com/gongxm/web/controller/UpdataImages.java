@@ -24,7 +24,7 @@ public class UpdataImages extends HttpServlet {
 			throws ServletException, IOException {
 
 		response.setContentType("text/html");
-		response.getWriter().write("<font color='red' size=5>正在更新，请稍候……</font><br/>");
+		response.getWriter().write("<h1 align='center'><font color='red' size=5>正在更新，请稍候……</font><br/></h1>");
 		response.setHeader("refresh", "1;url=" + request.getContextPath()+"/servlet/UpdateServlet");
 	}
 

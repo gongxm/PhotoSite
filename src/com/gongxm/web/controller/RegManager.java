@@ -1,26 +1,23 @@
 package com.gongxm.web.controller;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.gongxm.utils.MyCosntants;
+import com.gongxm.bean.CollectReg;
+import com.gongxm.service.Service;
+import com.gongxm.service.ServiceImpl;
 
-public class Logout extends HttpServlet {
-
+public class RegManager extends HttpServlet {
+	private Service s = new ServiceImpl();
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		request.getSession().removeAttribute("user");
-		Cookie cookie=new Cookie("user","");
-		cookie.setPath(request.getContextPath());
-		cookie.setMaxAge(0);
-		response.addCookie(cookie);
-		response.getWriter().write("<h1 align='center'>注销成功！2秒后转到主页！</h1>");
-		response.setHeader("refresh", "2;url="+MyCosntants.url);
+		List<CollectReg> regs=s.findAllReg();
+		request.getRequestDispatcher("/WEB-INF/regmanager.jsp").forward(request, response);
 	}
 
 	public void doPost(HttpServletRequest request, HttpServletResponse response)

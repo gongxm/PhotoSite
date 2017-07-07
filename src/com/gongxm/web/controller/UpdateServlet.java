@@ -14,44 +14,49 @@ import com.gongxm.service.ServiceImpl;
 import com.gongxm.utils.MyCosntants;
 
 public class UpdateServlet extends HttpServlet {
-	private Service s=new ServiceImpl();
-	public void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		//HTML中屏蔽以下内容，不更新图片文件夹
-		String realPath=getServletContext().getRealPath("/WEB-INF/images");
-		File file=new File(realPath);
+	private Service s = new ServiceImpl();
+
+	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// HTML中屏蔽以下内容，不更新图片文件夹
+		String realPath = getServletContext().getRealPath("/WEB-INF/images");
+		File file = new File(realPath);
 		clearDataBase();
-		treeWalk(file,response);
-		response.getWriter().write("<font color='green' size=5>图片更新成功！即将回到主页</font><br/>");
-		response.setHeader("refresh", "2;url="+MyCosntants.url);/**/
+		treeWalk(file, response);
+		response.getWriter().write("<h1 align='center'><font color='green' size=5>图片更新成功！即将回到主页</font><br/></h1>");
+		response.setHeader("refresh", "2;url=" + MyCosntants.url);/**/
 	}
 
-	//清空数据库
+	// 清空数据库
 	private void clearDataBase() {
 		s.clearDataBase();
 	}
 
-	//遍历图片文件夹，图片信息存储到数据库中
-	private void treeWalk(File file,HttpServletResponse response) throws IOException {
-		if(file==null)
+	// 遍历图片文件夹，图片信息存储到数据库中
+	private void treeWalk(File file, HttpServletResponse response) throws IOException {
+		if (file == null)
 			return;
-		if(file.isDirectory()){
-			File[] files=file.listFiles();
-			if(files==null||files.length==0){
+		if (file.isDirectory()) {
+			File[] files = file.listFiles();
+			if (files == null || files.length == 0) {
 				return;
 			}
-			for(File f:files)
-				treeWalk(f,response);
-		}else{
-			Image image=new Image();
+			for (File f : files) {
+				treeWalk(f, response);
+			}
+		} else {
+			Image image = new Image();
 			image.setFilename(file.getName());
-			image.setFilepath(file.getAbsolutePath());
-			s.addImg(image);
+			String absolutePath = file.getAbsolutePath();
+			String[] sArr = absolutePath.split("images");
+			if(sArr.length>1){
+				String path = sArr[1];
+				image.setFilepath(path.substring(1));
+				s.addImg(image);
+			}
 		}
 	}
 
-	public void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doGet(request, response);
 	}
 

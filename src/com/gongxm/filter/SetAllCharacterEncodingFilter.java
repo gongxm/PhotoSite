@@ -51,6 +51,7 @@ public class SetAllCharacterEncodingFilter implements Filter {
 
 }
 
+
 class MyRequest extends HttpServletRequestWrapper{
 
 	public MyRequest(HttpServletRequest request) {

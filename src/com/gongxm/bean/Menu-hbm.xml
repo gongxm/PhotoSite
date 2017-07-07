@@ -9,5 +9,7 @@
 		</id>
 		<property name="menu" column="MENU"></property>
 		<property name="name" column="NAME"></property>
+		<property name="startIndex" column="STARTINDEX"></property>
+		<property name="endIndex" column="ENDINDEX"></property>
 	</class>
 </hibernate-mapping>

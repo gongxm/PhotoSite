@@ -9,6 +9,7 @@ public interface MenuDao extends Dao<Menu> {
 
 	// 根据ID删除菜单
 	public abstract void deleteMenu(String id);
-	//根据menu查找菜单
+
+	// 根据menu查找菜单
 	public abstract Menu findMenu(String menu);
 }

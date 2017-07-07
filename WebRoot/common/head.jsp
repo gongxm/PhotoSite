@@ -14,14 +14,14 @@
 	color:blue;
 }
 body{
-	background-color:#ff80ff;
+	background-color:#ffff80;
 }
 </style>
 
 
 </head>
 <body>
-<h1>XXX图片站</h1>
+<h1 align="center">XXX图片站</h1>
 
 <c:if test="${sessionScope.user!=null}">
 欢迎您：${user.username}!<a href="${pageContext.request.contextPath}/servlet/Logout">注销</a>
